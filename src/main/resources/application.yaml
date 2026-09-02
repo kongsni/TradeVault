@@ -21,5 +21,10 @@ spring:
       hibernate:
         format_sql: true
 
+finnhub:
+  api:
+    base-url: https://finnhub.io/api/v1
+    key: ${FINNHUB_API_KEY:dabth7pr01qvvgl6r160dabth7pr01qvvgl6r16g}
+
 server:
   port: 8080
