@@ -1,5 +1,6 @@
 package com.tradevault.client;
 
+import com.tradevault.dto.FinnhubQuoteResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,8 +22,8 @@ public class FinnhubClient {
                 .build();
     }
 
-    // 특정 종목의 현재 실시간 주가(Quote) 조회
-    public String getQuote(String ticker) {
+    // JSON 문자열 대신 FinnhubQuoteResponse 객체로 바로 매핑하여 반환
+    public FinnhubQuoteResponse getQuote(String ticker) {
         log.info(">>> Finnhub 실시간 주가 조회 요청: {}", ticker);
 
         try {
@@ -33,7 +34,7 @@ public class FinnhubClient {
                             .queryParam("token", apiKey)
                             .build())
                     .retrieve()
-                    .body(String.class);
+                    .body(FinnhubQuoteResponse.class);
         } catch (Exception e) {
             log.error(">>> Finnhub API 호출 실패: {}", e.getMessage(), e);
             return null;
