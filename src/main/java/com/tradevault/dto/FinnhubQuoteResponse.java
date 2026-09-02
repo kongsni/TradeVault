@@ -5,11 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record FinnhubQuoteResponse(
-        @JsonProperty("c") Double currentPrice, // 현재가
-        @JsonProperty("d") Double change,       // 변동폭
-        @JsonProperty("dp") Double changePercent,// 등락률(%)
-        @JsonProperty("h") Double highPrice,    // 당일 고가
-        @JsonProperty("l") Double lowPrice,     // 당일 저가
-        @JsonProperty("o") Double openPrice,    // 시가
-        @JsonProperty("pc") Double prevClose    // 전일 종가
-) {}
+        @JsonProperty("c") Double currentPrice,
+        @JsonProperty("d") Double change,
+        @JsonProperty("dp") Double changePercent,
+        @JsonProperty("h") Double highPrice,
+        @JsonProperty("l") Double lowPrice,
+        @JsonProperty("o") Double openPrice,
+        @JsonProperty("pc") Double prevClose
+) {
+    // 소수점 둘째 자리까지 깔끔하게 반올림한 변동률 반환
+    public Double getFormattedChangePercent() {
+        if (changePercent == null) return 0.0;
+        return Math.round(changePercent * 100.0) / 100.0;
+    }
+}
